@@ -36,7 +36,7 @@ override.tf.json
 .terraformrc
 terraform.rc
 # credential files 
-keypair/*
+keypair/
 *.csv
 *.pem
 *.pub
