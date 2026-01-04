@@ -1,6 +1,0 @@
-.git 
-.vscode
-.gitignore
-Dockerfile
-node_modules
-deploy.sh
