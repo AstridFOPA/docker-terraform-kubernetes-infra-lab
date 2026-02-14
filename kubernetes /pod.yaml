@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: my-ubuntu-pod
+spec: 
+  containers: 
+    - name: my-ubuntu
+      image: ubuntu
+      command: ["sleep", "infinity"]

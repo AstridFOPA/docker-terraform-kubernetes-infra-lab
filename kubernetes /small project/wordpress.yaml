@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wordpress-deployment
+  labels:
+    app: wordpress
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: wordpress
+  template:
+    metadata:
+      labels:
+        app: wordpress
+    spec:
+      containers:
+      - name: wordpress
+        image: wordpress
+        ports:
+        - containerPort: 80
+          name: http
+        env: 
+          - name: WORDPRESS_DB_HOST
+            value: mariadb-service
+          - name: WORDPRESS_DB_USER
+            valueFrom:
+                secretKeyRef:
+                  name: my-mariadb-secret
+                  key: username
+          - name: WORDPRESS_DB_PASSWORD
+            valueFrom:
+                secretKeyRef:
+                  name: my-mariadb-secret
+                  key: password
+          - name: WORDPRESS_DB_NAME
+            value: wp
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: wordpress-service
+  labels:
+    app: wordpress
+spec:
+  type: NodePort
+  ports:
+   - targetPort: http
+     port: 80
+     nodePort: 30080
+     protocol: TCP
+  selector:
+    app: wordpress
